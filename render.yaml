@@ -1,0 +1,32 @@
+services:
+  # Servicio para el frontend (Vite/React)
+  - type: web
+    name: web-pistas
+    runtime: static
+    buildCommand: npm install && npm run build:web
+    staticPublishPath: ./apps/web/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        value: https://api-pistas.onrender.com  # Actualiza esto con la URL de tu API cuando la conozcas
+
+  # Servicio para el backend (API)
+  - type: web
+    name: api-pistas
+    runtime: node
+    buildCommand: npm install && npm run build:api
+    startCommand: cd apps/api && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Agrega todas tus variables de entorno de la API aquí
+      # Por ejemplo:
+      - key: AWS_ACCESS_KEY_ID
+        sync: false  # Esto indica que debes configurar este valor en el dashboard de Render
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
