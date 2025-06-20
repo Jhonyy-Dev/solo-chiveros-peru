@@ -17,7 +17,7 @@ services:
   - type: web
     name: api-pistas
     runtime: node
-    buildCommand: npm install && npm run build:api
+    buildCommand: npm install --production=false && npm run build:api
     startCommand: cd apps/api && npm start
     envVars:
       - key: NODE_ENV
